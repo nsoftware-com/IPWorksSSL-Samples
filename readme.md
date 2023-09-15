@@ -5,14 +5,14 @@ The provided sample projects offer a concise yet effective demonstration of the 
 IPWorks SSL 2022 libraries for the corresponding edition are required to run these samples.  Free download from: [https://www.nsoftware.com/ipworksssl](https://www.nsoftware.com/ipworksssl)
 
 ## Reference Documentation
-* [Java](https://cdn.nsoftware.com/help/ISH/java/)
-* [Javascript](https://cdn.nsoftware.com/help/ISH/js/)
-* [.NET](https://cdn.nsoftware.com/help/ISH/cs/)
-* [Python](https://cdn.nsoftware.com/help/ISH/py/)
-* [PHP](https://cdn.nsoftware.com/help/ISH/php/)
-* [C++](https://cdn.nsoftware.com/help/ISH/cpp/)
-* [macOS](https://cdn.nsoftware.com/help/ISH/mac/)
-* [iOS](https://cdn.nsoftware.com/help/ISH/mac/)
+* [Java Edition](https://cdn.nsoftware.com/help/ISH/java/)
+* [Javascript Edition](https://cdn.nsoftware.com/help/ISH/js/)
+* [.NET Edition](https://cdn.nsoftware.com/help/ISH/cs/)
+* [Python Edition](https://cdn.nsoftware.com/help/ISH/py/)
+* [PHP Edition](https://cdn.nsoftware.com/help/ISH/php/)
+* [C++ Edition](https://cdn.nsoftware.com/help/ISH/cpp/)
+* [macOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
+* [iOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
 
 ## Sample Projects
 | Sample Project | Description |
