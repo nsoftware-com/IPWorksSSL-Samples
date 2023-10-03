@@ -6,11 +6,12 @@ IPWorks SSL 2022 libraries for the corresponding edition are required to run the
 
 ## Reference Documentation
 * [Java Edition](https://cdn.nsoftware.com/help/ISH/java/)
-* [Javascript Edition](https://cdn.nsoftware.com/help/ISH/js/)
 * [.NET Edition](https://cdn.nsoftware.com/help/ISH/cs/)
+* [JavaScript Edition](https://cdn.nsoftware.com/help/ISH/js/)
 * [Python Edition](https://cdn.nsoftware.com/help/ISH/py/)
 * [PHP Edition](https://cdn.nsoftware.com/help/ISH/php/)
 * [C++ Edition](https://cdn.nsoftware.com/help/ISH/cpp/)
+* [Delphi Edition](https://cdn.nsoftware.com/help/ISH/dlp/)
 * [macOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
 * [iOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
 

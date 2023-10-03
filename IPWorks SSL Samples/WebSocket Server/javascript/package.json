@@ -8,7 +8,7 @@
   "main": "wsserver.js",
   "dependencies": {
     "full-icu": "*",
-    "ipworksssl": "^22.0.8658"
+    "ipworksssl": "^22.0.8676"
   },
   "scripts": {
     "wsserver": "node wsserver.js"
