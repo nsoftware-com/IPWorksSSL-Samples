@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -78,7 +78,7 @@ end;
 
 procedure TFormWSServer.btnStopClick(Sender: TObject);
 begin
-  ipsWSServer1.Listening := False;
+  ipsWSServer1.StopListening();
   btnStart.Enabled := True;
   btnStop.Enabled := False;
 end;
@@ -120,7 +120,7 @@ begin
     //we are connected
     txtLog.Lines.Add('Connected with ' + ipsWSServer1.WSConnectionRemoteHost[ConnectionId]);
     //send a welcome
-    ipsWSServer1.WSConnectionDataToSend[ConnectionId] := 'Connected to Echo Server!';
+    ipsWSServer1.SendText(ConnectionId, 'Connected to Echo Server!');
 end;
 
 procedure TFormWSServer.WSServer1DataIn(Sender: TObject;
@@ -130,7 +130,7 @@ begin
     // output what was heard
     txtLog.Lines.Add('Echoing "' + Text + '" to ' + ipsWSServer1.WSConnectionRemoteHost[ConnectionId]);
     // and echo it back
-    ipsWSServer1.WSConnectionDataToSend[ConnectionId] := Text;
+    ipsWSServer1.SendText(ConnectionId, 'Connected to Echo Server!');
 end;
 
 procedure TFormWSServer.WSServer1Disconnected(Sender: TObject; ConnectionId,

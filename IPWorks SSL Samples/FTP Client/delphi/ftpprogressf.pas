@@ -36,7 +36,7 @@ procedure TFormFtpprogress.ButtonCancelClick(Sender: TObject);
 begin
    try
       FormFtp.ipsFTP1.Abort();
-   except on E: EipsFTP do
+   except on E: EIPWorksSSL do
       FormFtp.UpdateNotes(E.Message);
    end;
 end;

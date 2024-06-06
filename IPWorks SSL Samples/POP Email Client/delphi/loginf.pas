@@ -18,6 +18,8 @@ type
     EditSMTPServer: TEdit;
     ButtonOK: TButton;
     ButtonCancel: TButton;
+    EditPOPPort: TEdit;
+    Label5: TLabel;
 
   private
     { Private declarations }

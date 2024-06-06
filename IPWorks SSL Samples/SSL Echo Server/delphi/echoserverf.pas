@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -86,7 +86,7 @@ begin
     ipsSSLServer1.SSLCertStore := '../../test.pfx';
     ipsSSLServer1.SSLCertStorePassword := 'test';
     ipsSSLServer1.SSLCertSubject := '*';
-    ipsSSLServer1.Listening := TRUE;
+    ipsSSLServer1.StartListening();
 
     lTrack.Clear;
     lTrack.Items.Add('Host ' + ipsSSLServer1.LocalHost + ' ' + inttostr(ipsSSLServer1.LocalPort));
@@ -108,7 +108,7 @@ procedure TFormEchoserver.ipsSSLServer1DataIn(Sender: TObject; ConnectionId: Int
   Text: string; TextB: TArray<System.Byte>; EOL: Boolean);
 begin
     lTrack.Items.Add('Heard: ' + Text);
-    ipsSSLServer1.DataToSend[ConnectionID] := Text + #10;
+    ipsSSLServer1.SendText(ConnectionID, Text + #10);
 end;
 
 procedure TFormEchoserver.ipsSSLServer1Disconnected(Sender: TObject; ConnectionId,

@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -42,10 +42,10 @@ type
     procedure RemoteDirRefresh();
     procedure LocalDirRefresh();
     procedure Webdav1DirList(Sender: TObject; const ResourceURI,
-      DisplayName, ContentLanguage, ContentLength, ContentType,
+      DisplayName, ContentLanguage: String; ContentLength: Int64; const ContentType,
       LastModified: String);
     procedure WebDAV1SSLServerAuthentication(Sender: TObject;
-      CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+      CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
       var Accept: Boolean);
   private
     { Private declarations }
@@ -134,7 +134,7 @@ begin
 end;
 
 procedure TFormWebdav.Webdav1DirList(Sender: TObject; const ResourceURI,
-  DisplayName, ContentLanguage, ContentLength, ContentType,
+  DisplayName, ContentLanguage: String; ContentLength: Int64; const ContentType,
   LastModified: String);
 
 begin
@@ -144,13 +144,13 @@ begin
     end
   else begin
     lvwRemote.Items[lvwRemote.Items.Count-1].Caption := DisplayName;
-    lvwRemote.Items[lvwRemote.Items.Count-1].SubItems.add(ContentLength);
+    lvwRemote.Items[lvwRemote.Items.Count-1].SubItems.add(IntToStr(ContentLength));
   end;
   lvwRemote.Items[lvwRemote.Items.Count-1].SubItems.add(LastModified);
 end;
 
 procedure TFormWebdav.WebDAV1SSLServerAuthentication(Sender: TObject;
-  CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+  CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
   var Accept: Boolean);
 begin
   Accept:=true;

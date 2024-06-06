@@ -29,7 +29,7 @@ struct ContentView: View, WSClientDelegate {
   var client = WSClient()
   
   var documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/"
-  @State private var server: String = "ws://echo.websocket.events/.ws"
+  @State private var server: String = "wss://echo.websocket.events/.ws"
   @State private var port: String = ""
   @State private var message: String = ""
   @State private var outputRes: String = ""
@@ -56,12 +56,6 @@ struct ContentView: View, WSClientDelegate {
         Text("Server:")
         TextField("localhost", text: $server).autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
           .border(Color.black)
-        
-        Text("Port:")
-        TextField("777", text: $port)
-          .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
-          .border(Color.black)
-        
       }
       
       connectButton()

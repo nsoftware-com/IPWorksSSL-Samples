@@ -2,18 +2,18 @@
 The provided sample projects offer a concise yet effective demonstration of the components from IPWorks SSL, showcasing their usage in a straightforward manner. While they are not intended to be complete applications, they serve as valuable illustrations of key features. To enhance clarity, error handling and checks are simplified, allowing users to focus on the core functionality.
 
 ## Requirements
-IPWorks SSL 2022 libraries for the corresponding edition are required to run these samples.  Free download from: [https://www.nsoftware.com/ipworksssl](https://www.nsoftware.com/ipworksssl)
+IPWorks SSL 2024 libraries for the corresponding edition are required to run these samples.  Free download from: [https://www.nsoftware.com/ipworksssl](https://www.nsoftware.com/ipworksssl)
 
 ## Reference Documentation
-* [Java Edition](https://cdn.nsoftware.com/help/ISH/java/)
-* [.NET Edition](https://cdn.nsoftware.com/help/ISH/cs/)
-* [JavaScript Edition](https://cdn.nsoftware.com/help/ISH/js/)
-* [Python Edition](https://cdn.nsoftware.com/help/ISH/py/)
-* [PHP Edition](https://cdn.nsoftware.com/help/ISH/php/)
-* [C++ Edition](https://cdn.nsoftware.com/help/ISH/cpp/)
-* [Delphi Edition](https://cdn.nsoftware.com/help/ISH/dlp/)
-* [macOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
-* [iOS Edition](https://cdn.nsoftware.com/help/ISH/mac/)
+* [Java Edition](https://cdn.nsoftware.com/help/ISJ/java/)
+* [.NET Edition](https://cdn.nsoftware.com/help/ISJ/cs/)
+* [JavaScript Edition](https://cdn.nsoftware.com/help/ISJ/js/)
+* [Python Edition](https://cdn.nsoftware.com/help/ISJ/py/)
+* [PHP Edition](https://cdn.nsoftware.com/help/ISJ/php/)
+* [C++ Edition](https://cdn.nsoftware.com/help/ISJ/cpp/)
+* [Delphi Edition](https://cdn.nsoftware.com/help/ISJ/dlp/)
+* [macOS Edition](https://cdn.nsoftware.com/help/ISJ/mac/)
+* [iOS Edition](https://cdn.nsoftware.com/help/ISJ/mac/)
 
 ## Sample Projects
 | Sample Project | Description |

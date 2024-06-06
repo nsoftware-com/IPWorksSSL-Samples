@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -84,7 +84,7 @@ begin
     gStartTime := GetTickCount;
 
     {send anything and the server will send the time}
-    ipsSSLClient1.DataToSend := tEcho.Text + #10;
+    ipsSSLClient1.SendText(tEcho.Text + #10);
 end;
 
 procedure TFormEchoclient.ipsSSLClient1Error(Sender: TObject; ErrorCode: integer;
@@ -155,7 +155,7 @@ begin
             ListStatus.Items.Add('Timed out ');
         end;
 
-    except on E: EipsSSLClient do
+    except on E: EIPWorksSSL do
         ListStatus.Items.Add('Exception: ' + E.Message);
     end;
 end;
@@ -187,17 +187,17 @@ end;
 
 procedure TFormEchoclient.FormDestroy(Sender: TObject);
 begin
-	ipsSSLClient1.Connected := FALSE;
+	ipsSSLClient1.Disconnect();
 end;
 
 procedure TFormEchoclient.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-	ipsSSLClient1.Connected := FALSE;
+	ipsSSLClient1.Disconnect();
 end;
 
 procedure TFormEchoclient.DisconnectClick(Sender: TObject);
 begin
-    ipsSSLClient1.connected := false;
+    ipsSSLClient1.Disconnect();
 end;
 
 procedure TFormEchoclient.ipsSSLClient1Disconnected(Sender: TObject; StatusCode: Integer;

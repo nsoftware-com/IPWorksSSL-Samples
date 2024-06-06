@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 JavaScript Edition - Sample Project
+ * IPWorks SSL 2024 JavaScript Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -120,7 +120,7 @@ async function main() {
 				if (messageCount!==0) {
 					imap.setMessageSet("1:" + messageCount.toString());
 					console.log("Messages in current mailbox:");
-					await imap.fetchMessageInfo();
+					await imap.retrieveMessageInfo();
 				} else{
 					console.log("No messages found in the current mailbox.");
 				}
@@ -134,7 +134,7 @@ async function main() {
 				if (parseInt(index)<=messageCount) {
 					console.log("Message text:");
 					imap.setMessageSet(index);
-					await imap.fetchMessageText().catch((err) => console.log("Error: "+err.message));;
+					await imap.retrieveMessageText().catch((err) => console.log("Error: "+err.message));;
 				} else{
 					console.log("Index out of range!");
 				}

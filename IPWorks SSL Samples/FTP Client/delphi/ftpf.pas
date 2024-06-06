@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -133,7 +133,7 @@ begin
       begin
          if ShowModal = mrOK then
          begin
-            ipsFTP1.RemotePath := '';
+            ipsFTP1.ChangeRemotePath('');
             ipsFTP1.RemoteFile := '';
             ipsFTP1.RemoteHost := EditHostName.Text;
             ipsFTP1.User := EditUser.Text;
@@ -142,10 +142,10 @@ begin
             try
                ipsFTP1.Logon;
                State := OnLineConst;
-               ComboBoxRemHistory.Items.Insert(0, ipsFTP1.RemotePath);
+               ComboBoxRemHistory.Items.Insert(0, ipsFTP1.QueryRemotePath());
                ComboBoxRemHistory.ItemIndex := 0;
                UpdateRemote;
-            except on E: EipsFTP do
+            except on E: EIPWorksSSL do
                UpdateNotes(E.Message);
             end;
          end;
@@ -155,7 +155,7 @@ begin
    begin
       try
         ipsFTP1.Logoff
-      except on E: EipsFTP do
+      except on E: EIPWorksSSL do
          UpdateNotes(E.Message);
       end;
       State := OffLineConst;
@@ -171,7 +171,7 @@ begin
       Screen.Cursor := crAppStart;
       try
          ipsFTP1.Logoff;
-      except on E: EipsFTP do
+      except on E: EIPWorksSSL do
          UpdateNotes(E.Message);
       end;
       Screen.Cursor := crDefault;
@@ -206,8 +206,8 @@ begin
    if Name[1] = '<' then
    begin
       Delete(Name, 1, 7); { Remove first seven characters, '<DIR>  '}
-      ipsFTP1.RemotePath := ipsFTP1.RemotePath + '/' + Name;
-      UpdateComboBox(ComboBoxRemHistory, ipsFTP1.RemotePath);
+      ipsFTP1.ChangeRemotePath(Name);
+      UpdateComboBox(ComboBoxRemHistory, ipsFTP1.QueryRemotePath());
       UpdateRemote;
    end else
       ButtonDownloadClick(nil);
@@ -219,12 +219,12 @@ begin
    Screen.Cursor := crAppStart;
    try
    if RadioGroupTransferMode.ItemIndex = 0 then
-      ipsFTP1.TransferMode := tmASCII
+      ipsFTP1.ChangeTransferMode(Integer(tmASCII))
    else if RadioGroupTransferMode.ItemIndex = 1 then
-      ipsFTP1.TransferMode := tmBinary
+      ipsFTP1.ChangeTransferMode(Integer(tmBinary))
    else if RadioGroupTransferMode.ItemIndex = 2 then
-      ipsFTP1.TransferMode := tmDefault;
-   except on E: EipsFTP do
+      ipsFTP1.ChangeTransferMode(Integer(tmDefault));
+   except on E: EIPWorksSSL do
       UpdateNotes(E.Message);
    end;
    Screen.Cursor := crDefault;
@@ -348,11 +348,11 @@ begin
    begin
       Caption := 'Change Directory';
       LabelWhat.Caption := 'New directory:';
-      EditLine.Text := ipsFTP1.RemotePath;
+      EditLine.Text := ipsFTP1.QueryRemotePath();
 
       if ShowModal = mrOk then
       begin
-         ipsFTP1.RemotePath := EditLine.Text;
+         ipsFTP1.ChangeRemotePath(EditLine.Text);
          UpdateComboBox(ComboBoxRemHistory, EditLine.Text);
          UpdateRemote;
       end;
@@ -373,7 +373,7 @@ begin
          try
             ipsFTP1.MakeDirectory(EditLine.Text);
             UpdateRemote;
-         except on E: EipsFTP do
+         except on E: EIPWorksSSL do
             UpdateNotes(E.Message);
          end;
       end;
@@ -413,7 +413,7 @@ begin
          ipsFTP1.RemoteFile := NameToRename;
          try
             ipsFTP1.RenameFile(EditLine.Text);
-         except on E: EipsFTP do
+         except on E: EIPWorksSSL do
             UpdateNotes(E.Message);
          end;
          UpdateRemote;
@@ -455,7 +455,7 @@ begin
                ipsFTP1.RemoveDirectory(NameToDel)
             else
                ipsFTP1.DeleteFile(NameToDel);
-         except on E: EipsFTP do
+         except on E: EIPWorksSSL do
             UpdateNotes(E.Message);
          end;
          UpdateRemote;
@@ -484,7 +484,7 @@ begin
       Screen.Cursor := crAppStart;
       try
          ipsFTP1.Download;
-      except on E: EipsFTP do
+      except on E: EIPWorksSSL do
       begin
          UpdateNotes(E.Message);
          UpdateRemote;  // this is to test the connection
@@ -516,7 +516,7 @@ begin
       Screen.Cursor := crAppStart;
       try
          ipsFTP1.Upload;
-      except on E: EipsFTP do
+      except on E: EIPWorksSSL do
          UpdateNotes(E.Message);
       end;
 
@@ -584,11 +584,11 @@ begin
    ipsFTP1.RemoteFile := '';
    try
       ipsFTP1.ListDirectoryLong;
-   except on E: EipsFTP do
+   except on E: EIPWorksSSL do
    begin
       try
          ipsFTP1.Interrupt;
-      except on E: EipsFTP do
+      except on E: EIPWorksSSL do
       end;
       State := OffLineConst;
       UpdateButtons;
@@ -637,7 +637,7 @@ begin
    Screen.Cursor := crAppStart;
    try
       ipsFTP1.Interrupt;
-   except on E: EipsFTP do
+   except on E: EIPWorksSSL do
       UpdateNotes(E.Message);
    end;
    Screen.Cursor := crDefault;
@@ -699,7 +699,7 @@ end;
 procedure TFormFtp.ComboBoxRemHistoryChange(Sender: TObject);
 begin
    // Return to recent remote directory
-   ipsFTP1.RemotePath := ComboBoxRemHistory.Text;
+   ipsFTP1.ChangeRemotePath(ComboBoxRemHistory.Text);
    UpdateComboBox(ComboBoxRemHistory, ComboBoxRemHistory.Text);
    UpdateRemote;
 end;

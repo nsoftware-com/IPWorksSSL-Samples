@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -106,7 +106,7 @@ begin
 end;
 
 procedure TFormPopclient.ipsPOP1SSLServerAuthentication(Sender: TObject;
-  CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+  CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
   var Accept: Boolean);
 begin
   Accept:=true;
@@ -126,12 +126,13 @@ begin
          ipsPOP1.Disconnect();
 
          ipsPOP1.MailServer := FormLogin.EditPOPServer.Text;
+         ipsPOP1.MailPort := StrToInt(FormLogin.EditPOPPort.Text);
          ipsPOP1.User := FormLogin.EditUser.Text;
          ipsPOP1.Password := FormLogin.EditPassword.Text;
          ipsSMTP1.MailServer := FormLogin.EditSMTPServer.Text;
          try
             ipsPOP1.Connect;
-         except on E: EipsPOP do
+         except on E: EIPWorksSSL do
             ShowMessage(E.Message);
          end;
 
@@ -149,7 +150,7 @@ begin
             ipsPOP1.MessageNumber := k;
             try
                ipsPOP1.Retrieve;
-            except on E: EipsPOP do
+            except on E: EIPWorksSSL do
                ShowMessage(E.Message);
             end;
             ListViewMailbox.Items.Add();
@@ -165,7 +166,7 @@ begin
    begin
       try
          ipsPOP1.Disconnect();
-      except on E: EipsPOP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       ButtonLoginLogout.Caption := 'Login';
@@ -197,7 +198,7 @@ begin
          ipsSMTP1.Connect();
          ipsSMTP1.Send();
          ipsSMTP1.Disconnect();
-      except on E: EipsSMTP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       FormCompose.EditTo.Text := '';
@@ -236,7 +237,7 @@ begin
             ipsSMTP1.Connect;
             ipsSMTP1.Send;
             ipsSMTP1.Disconnect;
-         except on E: EipsSMTP do
+         except on E: EIPWorksSSL do
             ShowMessage(E.Message);
          end;
          FormCompose.EditTo.Text := '';
@@ -261,7 +262,7 @@ begin
       ipsPOP1.MessageNumber := StrToInt(ListViewMailbox.Selected.Caption);
       try
          ipsPOP1.Delete();
-      except on E: EipsPOP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       // Now for convenience, refresh the header list for remaining messages.
@@ -271,7 +272,7 @@ begin
          try
             ipsPOP1.Disconnect();
             ipsPOP1.Connect();
-         except on E: EipsPOP do
+         except on E: EIPWorksSSL do
             ShowMessage(E.Message);
          end;
          ipsPOP1.MaxLines := 1;
@@ -283,7 +284,7 @@ begin
             ipsPOP1.MessageNumber := k;
             try
                ipsPOP1.Retrieve();
-            except on E: EipsPOP do
+            except on E: EIPWorksSSL do
                ShowMessage(E.Message);
             end;
             ListViewMailbox.Items.Add();
@@ -315,7 +316,7 @@ begin
       try
          ipsPOP1.Disconnect();
          ipsPOP1.Connect();
-      except on E: EipsPOP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       ipsPOP1.MaxLines := 1;
@@ -328,7 +329,7 @@ begin
          ipsPOP1.MessageNumber := k;
          try
             ipsPOP1.Retrieve();
-         except on E: EipsPOP do
+         except on E: EIPWorksSSL do
             ShowMessage(E.Message);
          end;
          ListViewMailbox.Items.Add();
@@ -356,7 +357,7 @@ begin
       try
         ipsPOP1.Retrieve();
         ListBoxMessage.Items.Text := ipsPOP1.MessageText;
-      except on E: EipsPOP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       ButtonReply.Enabled := true;
@@ -385,7 +386,7 @@ begin
 end;
 
 procedure TFormPopclient.ipsSMTP1SSLServerAuthentication(Sender: TObject;
-  CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+  CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
   var Accept: Boolean);
 begin
   Accept:=true;

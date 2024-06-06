@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 Java Edition - Sample Project
+ * IPWorks SSL 2024 Java Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -17,7 +17,7 @@ import ipworksssl.*;
 
 public class echoclient extends ConsoleDemo {
 
-	private static Sslclient sslclient;
+	private static SSLClient sslclient;
 
 	public static void main(String[] args) {
 		if (args.length != 2) {
@@ -28,26 +28,26 @@ public class echoclient extends ConsoleDemo {
 			System.out.println("\r\nExample: echoclient localhost 777");
 		} else {
 			try {
-				sslclient = new Sslclient();
+				sslclient = new SSLClient();
 				System.out.println("*************************************************************************************************************");
 				System.out.println("* This is a demo to show how to connect to a remote echo server, send data, and receive the echoed response.*");
 				System.out.println("*************************************************************************************************************\n");
-				sslclient.addSslclientEventListener(new DefaultSslclientEventListener() {
-					public void SSLServerAuthentication(SslclientSSLServerAuthenticationEvent e) {
+				sslclient.addSSLClientEventListener(new DefaultSSLClientEventListener() {
+					public void SSLServerAuthentication(SSLClientSSLServerAuthenticationEvent e) {
 						e.accept = true;
 					}
 
-					public void connected(SslclientConnectedEvent e) {
+					public void connected(SSLClientConnectedEvent e) {
 						System.out.println("\r\n" + sslclient.getRemoteHost() + " has connected.");
 						System.out.print(">");
 					}
 
-					public void dataIn(SslclientDataInEvent e) {
+					public void dataIn(SSLClientDataInEvent e) {
 						System.out.println("Received " + new String(e.text) + " from " + sslclient.getRemoteHost());
 						System.out.print(">");
 					}
 
-					public void disconnected(SslclientDisconnectedEvent e) {
+					public void disconnected(SSLClientDisconnectedEvent e) {
 						System.out.println("Disconnected " + e.description + " from " + sslclient.getRemoteHost() + ".");
 						System.out.print(">");
 					}
@@ -64,7 +64,7 @@ public class echoclient extends ConsoleDemo {
 						if (System.in.available() > 0) {
 							String command = String.valueOf(read());
 							if ("1".equals(command)) {
-								sslclient.setDataToSend(prompt("Please input sending data") + "\r\n");
+								sslclient.sendText(prompt("Please input sending data") + "\r\n");
 								System.out.println("Sending success.");
 								System.out.println("\r\nPlease input command: \r\n- 1 Send Data \r\n- 2 Exit");
 								System.out.print(">");
@@ -105,15 +105,13 @@ class ConsoleDemo {
     System.out.print(label + punctuation + " ");
     return input();
   }
-
-  static String prompt(String label, String punctuation, String defaultVal)
-  {
-	System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
-	String response = input();
-	if(response.equals(""))
-		return defaultVal;
-	else
-		return response;
+  static String prompt(String label, String punctuation, String defaultVal) {
+      System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
+      String response = input();
+      if (response.equals(""))
+        return defaultVal;
+      else
+        return response;
   }
 
   static char ask(String label) {

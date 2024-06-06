@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 Java Edition - Sample Project
+ * IPWorks SSL 2024 Java Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -19,8 +19,8 @@ import ipworksssl.*;
 
 public class oauth extends ConsoleDemo {
 
-	private static Oauth oauth1 = null;
-	private static Http http1 = null;
+	private static OAuth oauth1 = null;
+	private static HTTP http1 = null;
 	
 	public static void main(String[] args) {
 		
@@ -38,15 +38,15 @@ public class oauth extends ConsoleDemo {
 		} else {
 		
 			try { 
-				oauth1 = new Oauth();
-				http1 = new Http();
+				oauth1 = new OAuth();
+				http1 = new HTTP();
 				
-				oauth1.addOauthEventListener(new DefaultOauthEventListener(){
+				oauth1.addOAuthEventListener(new DefaultOAuthEventListener(){
 					
-					public void SSLServerAuthentication(OauthSSLServerAuthenticationEvent arg0) {
+					public void SSLServerAuthentication(OAuthSSLServerAuthenticationEvent arg0) {
 						arg0.accept=true; //this will trust all certificates and it is not recommended for production use
 					}						
-					public void launchBrowser(OauthLaunchBrowserEvent arg0) {
+					public void launchBrowser(OAuthLaunchBrowserEvent arg0) {
 						// Normally, the component will execute the command property to launch the browser for authorization.
 						// Setting the command to an empty string will prevent a browser from opening the URL. The following 
 						// line can be un-commented to exhibit this behavior.
@@ -56,7 +56,7 @@ public class oauth extends ConsoleDemo {
 		        });
 			
 				/*This application demonstrates how to use the OAuth component to authenticate with Google using OAuth 2.0 (Device Profile). 
-			   	  It also demonstrates how to use the retrieved Authorization String with the Http and Json components to retrieve user information. 
+			   	  It also demonstrates how to use the retrieved Authorization String with the HTTP and Json components to retrieve user information. 
 			   	  It will guide you through the steps to perform authorization using OAuth. 
 			      Please see the Introduction page within the help for more detailed instructions.
 						
@@ -89,7 +89,7 @@ public class oauth extends ConsoleDemo {
 			      service. Upon successfully authenticating and allowing access, the user will
 			      be redirected back to an embedded web server within the component.
 			      The Authorization String will then be set to the 'Authorization' property
-			      of the Http component and used to retrieve the user info for the authenticated
+			      of the HTTP component and used to retrieve the user info for the authenticated
 			      client.*/
 			
 				String authString = oauth1.getAuthorization();
@@ -132,15 +132,13 @@ class ConsoleDemo {
     System.out.print(label + punctuation + " ");
     return input();
   }
-
-  static String prompt(String label, String punctuation, String defaultVal)
-  {
-	System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
-	String response = input();
-	if(response.equals(""))
-		return defaultVal;
-	else
-		return response;
+  static String prompt(String label, String punctuation, String defaultVal) {
+      System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
+      String response = input();
+      if (response.equals(""))
+        return defaultVal;
+      else
+        return response;
   }
 
   static char ask(String label) {

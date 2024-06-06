@@ -1,7 +1,7 @@
 import SwiftUI
 import IPWorksSSL
 
-struct ContentView: View, TCPServerDelegate {
+struct ContentView: View, SSLServerDelegate {
   @State private var outputRes: String = ""
   
   func onConnected(connectionId: Int32, statusCode: Int32, description: String) {
@@ -26,7 +26,7 @@ struct ContentView: View, TCPServerDelegate {
   func onSSLConnectionRequest(connectionId: Int32, supportedCipherSuites: String, supportedSignatureAlgs: String, certStoreType: inout Int32, certStore: inout String, certPassword: inout String, certSubject: inout String) {}    
   func onSSLStatus(connectionId: Int32, message: String) {}
   
-  var server = TCPServer()    
+  var server = SSLServer()
   var documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/"
   @State private var port: String = ""
   @State private var connected = false
@@ -69,18 +69,16 @@ struct ContentView: View, TCPServerDelegate {
       
       do
       {
-        server.sslCertStore = "" // Set sslCertStore to the path of the server certificate
-        server.sslCertStoreType = TcpserverSSLCertStoreTypes.cstAuto
-        server.sslCertStorePassword = ""
-        try server.setSSLCertSubject(sslCertSubject: "*")
-        server.localPort = 777
+        // Configure server certificate
+        server.sslCert = Certificate(storeType: CertStoreTypes.cstAuto, store: "/Applications/IPWorks SSL 2024 macOS Edition/demos/SSL Echo Server/test.pfx", storePassword: "test", subject: "*")
+        server.localPort = Int32(port) ?? 777
         if (server.listening)
         {
-          try server.setListening(listening: false)
+          try server.stopListening()
         }
         else
         {
-          try server.setListening(listening: true)
+          try server.startListening()
           outputRes+="Server listening at:\nHost: \(server.localHost)\nPort: \(String(server.localPort))\n"
         }
       }
@@ -88,7 +86,7 @@ struct ContentView: View, TCPServerDelegate {
       {
         do
         {
-          try server.setListening(listening: false)
+          try server.stopListening()
         }
         catch {}
         outputRes += "Error: \(error)"

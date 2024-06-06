@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -39,11 +39,17 @@ type
     btnSend: TButton;
     ipsHTMLMailer1: TipsHTMLMailer;
     OpenDialog1: TOpenDialog;
+    tPort: TEdit;
+    Label1: TLabel;
+    tPassword: TEdit;
+    tUser: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
     procedure btnSendClick(Sender: TObject);
     procedure btnAddClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure ipsHTMLMailer1SSLServerAuthentication(Sender: TObject;
-      CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+      CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
       var Accept: Boolean);
   private
     { Private declarations }
@@ -77,12 +83,13 @@ begin
 
   try
     ipsHTMLMailer1.MailServer := txtMailServer.Text;
+    ipsHTMLMailer1.MailPort := StrToInt(tPort.Text);
     ipsHTMLMailer1.SendTo := txtSendTo.Text;
     ipsHTMLMailer1.Subject := txtSubject.Text;
     ipsHTMLMailer1.From := txtFrom.Text;
     //if you wanted basic user authentication:
-    //ipsHTMLMailer1.User := "username";
-    //ipsHTMLMailer1.Password := "password";
+    ipsHTMLMailer1.User := tUser.Text;
+    ipsHTMLMailer1.Password := tPassword.Text;
 
     ipsHTMLMailer1.MessageHTML := txtHtml.Text;
     ipsHTMLMailer1.AttachmentCount := 0;
@@ -103,7 +110,7 @@ begin
 end;
 
 procedure TFormHtmlmailer.ipsHTMLMailer1SSLServerAuthentication(Sender: TObject;
-  CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+  CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
   var Accept: Boolean);
 begin
   Accept:=true;

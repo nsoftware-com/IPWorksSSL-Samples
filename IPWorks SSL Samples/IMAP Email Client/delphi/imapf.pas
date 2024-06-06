@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -40,10 +40,10 @@ type
     procedure TreeViewMailboxesClick(Sender: TObject);
     procedure ListViewMessagesClick(Sender: TObject);
     procedure ipsIMAP1MessagePart(Sender: TObject; const PartId: String;
-      Size: Int64; const ContentType, Filename, ContentEncoding,
+      Size: Int64; const ContentType, FileName, ContentEncoding,
       Parameters, MultipartMode, ContentId, ContentDisposition: String);
     procedure ipsHTMLMailer1SSLServerAuthentication(Sender: TObject;
-      CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+      CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
       var Accept: Boolean);
     procedure ButtonComposeClick(Sender: TObject);
     procedure ipsIMAP1MessageInfo(Sender: TObject; const MessageId,
@@ -51,7 +51,7 @@ type
     procedure ipsIMAP1Transfer(Sender: TObject; Direction: Integer;
       BytesTransferred: Int64; PercentDone: Integer; const Text: string);
     procedure ipsIMAP1SSLServerAuthentication(Sender: TObject;
-      CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+      CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
       var Accept: Boolean);
   private
     { Private declarations }
@@ -104,7 +104,7 @@ begin
             ipsIMAP1.Connect;
             ipsIMAP1.Mailbox := '*';
             ipsIMAP1.ListMailboxes;
-         except on E: EipsIMAP do
+         except on E: EIPWorksSSL do
             ShowMessage(E.Message);
          end;
          ButtonLogin.Caption := 'Logout';
@@ -115,7 +115,7 @@ begin
    begin
       try
          ipsIMAP1.disconnect();
-      except on E: EipsIMAP do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       TreeViewMailboxes.Items.Clear();
@@ -222,10 +222,10 @@ begin
          begin
             ipsIMAP1.MessageSet := '1:' + IntToStr(ipsIMAP1.MessageCount);
             state := HEADERS_;
-            ipsIMAP1.FetchMessageInfo();
+            ipsIMAP1.RetrieveMessageInfo();
          end;
       end;
-   except on E: EipsIMAP do
+   except on E: EIPWorksSSL do
       ShowMessage(E.Message);
    end;
    Screen.Cursor := crDefault;
@@ -241,18 +241,18 @@ begin
       ipsIMAP1.MessageSet := ListViewMessages.Selected.Caption;
       ListBoxMessage.Items.Clear();
       state := TEXT_;
-      ipsIMAP1.FetchMessageInfo();
+      ipsIMAP1.RetrieveMessageInfo();
       if textpart = '0' then
-         ipsIMAP1.FetchMessageText
+         ipsIMAP1.RetrieveMessageText()
       else
       begin
-         ipsIMAP1.FetchMessagePart(textpart);
+         ipsIMAP1.RetrieveMessagePart(textpart);
          ListBoxMessage.Items.Text := ipsIMAP1.MessageText;
          textpart := '0';
       end;
       Label3.Caption := ListViewMessages.Selected.SubItems.Strings[0];
       Label4.Caption := ListViewMessages.Selected.SubItems.Strings[1];
-   except on E: EipsIMAP do
+   except on E: EIPWorksSSL do
       ShowMessage(E.Message);
    end;
    Screen.Cursor := crDefault;
@@ -263,23 +263,23 @@ end;
 
 
 procedure TFormImap.ipsIMAP1MessagePart(Sender: TObject; const PartId: String;
-  Size: Int64; const ContentType, Filename, ContentEncoding, Parameters,
+  Size: Int64; const ContentType, FileName, ContentEncoding, Parameters,
   MultipartMode, ContentId, ContentDisposition: String);
 begin
-//   if (ContentType = 'text/plain') and (Filename = '' ) then
+//   if (ContentType = 'text/plain') and (FileName = '' ) then
 //      textpart := PartId;
 end;
 
 
 procedure TFormImap.ipsIMAP1SSLServerAuthentication(Sender: TObject;
-  CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+  CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
   var Accept: Boolean);
 begin
   Accept := true;
 end;
 
 procedure TFormImap.ipsHTMLMailer1SSLServerAuthentication(Sender: TObject;
-      CertEncoded: string; CertEncodedB: TArray<System.Byte>; const CertSubject, CertIssuer, Status: string;
+      CertEncoded: string; CertEncodedB: TBytes; const CertSubject, CertIssuer, Status: string;
       var Accept: Boolean);
 begin
   Accept := true;
@@ -339,7 +339,7 @@ begin
          ipsHTMLMailer1.Connect();
          ipsHTMLMailer1.Send();
          ipsHTMLMailer1.Disconnect();
-      except on E: EipsHTMLMailer do
+      except on E: EIPWorksSSL do
          ShowMessage(E.Message);
       end;
       FormCompose.EditCc.Text := '';

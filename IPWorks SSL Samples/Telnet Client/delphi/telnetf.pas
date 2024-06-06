@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -104,7 +104,7 @@ begin
             MessageDlg( 'Connection timed out.', mtWarning, [mbOK], 0);
             Memo1.Clear;
         end
-    except on E: EipsTelnet do
+    except on E: EIPWorksSSL do
         Memo1.Lines.Add('EXCEPTION: ' + E.Message);
     end;
 end;
@@ -157,7 +157,7 @@ begin
 {	if OptionCode = 24 then
     Telnet1.WillOption := OptionCode
   else}
-        ipsTelnet1.WontOption := OptionCode;
+        ipsTelnet1.SendWontOption(OptionCode);
 	Memo2.Lines.Add('CLIENT: WONT OPTION ' + IntToStr(OptionCode));
 end;
 
@@ -175,9 +175,12 @@ end;
 
 procedure TFormTelnet.ipsTelnet1SubOption(Sender: TObject; SubOption: string;
   SubOptionB: TArray<System.Byte>);
+var
+  CommandString: string;
 begin
 	Memo2.Lines.Add('SERVER: DO SUBOPTION ' + SubOption);
-  ipsTelnet1.DoSubOption := char(24) + char(0) + 'vt100';
+  CommandString := char(24) + char(0) + 'vt100';
+  ipsTelnet1.SendDoSubOption(TEncoding.UTF8.GetBytes(CommandString));
 end;
 
 procedure TFormTelnet.ipsTelnet1Will(Sender: TObject; OptionCode: Integer);
@@ -193,10 +196,10 @@ end;
 procedure TFormTelnet.Memo1KeyPress(Sender: TObject; var Key: Char);
 begin
     {send the character}
-    ipsTelnet1.DataToSend := Key;
+    ipsTelnet1.SendText(Key);
 
     {add a line feed after carriage return}
-    If Key = #13 Then ipsTelnet1.DataToSend := #10;
+    If Key = #13 Then ipsTelnet1.SendText(#10);
 
     {do not allow local echo}
     Key := #0;

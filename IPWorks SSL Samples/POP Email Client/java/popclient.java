@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 Java Edition - Sample Project
+ * IPWorks SSL 2024 Java Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -27,15 +27,16 @@ public class popclient extends ConsoleDemo {
     static String msg_subject;
     static int msg_field;
     static int lines;
-    static Pop pop;
+    static POP pop;
  
     public static void main(String[] args) {
     	
-    	if(args.length!=5) {
+    	if(args.length < 6) {
 			System.out.println("* This demo shows how to use POP component to view messages in the mailbox and reply to an email with the Filemailer component. *");
-			System.out.println("usage: popclient popserver user password smtpserver from");
+			System.out.println("usage: popclient server port user password smtpserver from");
 			System.out.println("");
-			System.out.println("  popserver   the name or address of a mail server (internet post office server)");
+			System.out.println("  server      the name or address of the mail server");
+			System.out.println("  port        the port of the mail server");
 			System.out.println("  user        the user identifier for the mailbox");
 			System.out.println("  password    the password for the mailbox user");
 			System.out.println("  smtpserver  the name or address of a mail server (mail relay)");
@@ -48,8 +49,8 @@ public class popclient extends ConsoleDemo {
 			lines = 0;
 			reply = "";
         
-			pop = new Pop();                // POP object
-			Smtp smtp = new Smtp();   // SMTP object
+			pop = new POP();                // POP object
+			SMTP smtp = new SMTP();   // SMTP object
 
 			String command;     			// user's command
 			String buffer;      			// text buffer
@@ -60,11 +61,11 @@ public class popclient extends ConsoleDemo {
 			int msgnum = 0;             	// current message number for next command
 
 			try {
-				pop.addPopEventListener(new DefaultPopEventListener(){      		
-					public void SSLServerAuthentication(PopSSLServerAuthenticationEvent e) {
+				pop.addPOPEventListener(new DefaultPOPEventListener(){      		
+					public void SSLServerAuthentication(POPSSLServerAuthenticationEvent e) {
 						e.accept=true; //this will trust all certificates and it is not recommended for production use	
 					}
-					public void header(PopHeaderEvent e) {
+					public void header(POPHeaderEvent e) {
 						if (state == FULL){
 							System.out.println(e.field+": "+e.value);
 						} else if (e.field.equals("From") ){
@@ -90,7 +91,7 @@ public class popclient extends ConsoleDemo {
 							msg_field = 0;
 						}
 					}       		
-					public void transfer(PopTransferEvent e) {
+					public void transfer(POPTransferEvent e) {
 						String s = new String(e.text);
 						if (state == FULL){
 							System.out.println(s);
@@ -107,13 +108,14 @@ public class popclient extends ConsoleDemo {
 					}        		      									
 				});
             
-	            pop.setMailServer( args[0] ); // pop server       
-	            pop.setUser( args[1] ); // user
-	            pop.setPassword( args[2] ); // password
+	            pop.setMailServer( args[args.length-6] ); // pop server       
+				pop.setMailPort(Integer.parseInt(args[args.length-5])); // pop server port
+	            pop.setUser( args[args.length-4] ); // user
+	            pop.setPassword( args[args.length-3] ); // password
 	            pop.connect();
 	
-	            smtp.setMailServer( args[3]); // smtp server
-	            smtp.setFrom( args[4] );
+	            smtp.setMailServer( args[args.length-2]); // smtp server
+	            smtp.setFrom( args[args.length-1] );
 	
 	            DisplayMenu();
         
@@ -316,15 +318,13 @@ class ConsoleDemo {
     System.out.print(label + punctuation + " ");
     return input();
   }
-
-  static String prompt(String label, String punctuation, String defaultVal)
-  {
-	System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
-	String response = input();
-	if(response.equals(""))
-		return defaultVal;
-	else
-		return response;
+  static String prompt(String label, String punctuation, String defaultVal) {
+      System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
+      String response = input();
+      if (response.equals(""))
+        return defaultVal;
+      else
+        return response;
   }
 
   static char ask(String label) {

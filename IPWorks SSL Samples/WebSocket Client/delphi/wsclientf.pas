@@ -1,5 +1,5 @@
 (*
- * IPWorks SSL 2022 Delphi Edition - Sample Project
+ * IPWorks SSL 2024 Delphi Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -77,14 +77,14 @@ end;
 
 procedure TFormWSClient.btnSendClick(Sender: TObject);
 begin
-  ipsWSClient1.DataToSend := txtData.Text;
+  ipsWSClient1.SendText(txtData.Text);
   txtData.Text := '';
 end;
 
 procedure TFormWSClient.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   // Disconnect if the form is closed
-  ipsWSClient1.Connected := False;
+  ipsWSClient1.Disconnect();
 end;
 
 

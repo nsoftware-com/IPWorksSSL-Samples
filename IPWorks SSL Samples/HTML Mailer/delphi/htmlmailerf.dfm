@@ -3,7 +3,7 @@ object FormHtmlmailer: TFormHtmlmailer
   Top = 130
   BorderStyle = bsSingle
   Caption = 'HTMLMailer Demo'
-  ClientHeight = 383
+  ClientHeight = 426
   ClientWidth = 515
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,9 +11,7 @@ object FormHtmlmailer: TFormHtmlmailer
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   Position = poDesigned
-  PixelsPerInch = 96
   TextHeight = 13
   object lblHeading: TLabel
     Left = 10
@@ -42,74 +40,95 @@ object FormHtmlmailer: TFormHtmlmailer
     Caption = 'Mail Server'
   end
   object lblSendTo: TLabel
-    Left = 10
-    Top = 77
+    Left = 12
+    Top = 105
     Width = 39
     Height = 13
     Caption = 'Send To'
   end
   object lblFrom: TLabel
-    Left = 266
-    Top = 77
+    Left = 268
+    Top = 105
     Width = 24
     Height = 13
     Caption = 'From'
   end
   object lblSubject: TLabel
-    Left = 10
-    Top = 104
+    Left = 12
+    Top = 132
     Width = 36
     Height = 13
     Caption = 'Subject'
   end
   object lblHTML: TLabel
     Left = 8
-    Top = 128
+    Top = 156
     Width = 96
     Height = 13
     Caption = 'HTML Message Text'
   end
   object lblAttachments: TLabel
     Left = 8
-    Top = 319
+    Top = 362
     Width = 61
     Height = 13
     Caption = 'Attachments'
   end
+  object Label1: TLabel
+    Left = 266
+    Top = 50
+    Width = 20
+    Height = 13
+    Caption = 'Port'
+  end
+  object Label2: TLabel
+    Left = 10
+    Top = 77
+    Width = 48
+    Height = 13
+    Caption = 'Username'
+  end
+  object Label3: TLabel
+    Left = 266
+    Top = 78
+    Width = 46
+    Height = 13
+    Caption = 'Password'
+  end
   object txtMailServer: TEdit
     Left = 72
     Top = 47
-    Width = 177
+    Width = 188
     Height = 21
     TabOrder = 0
   end
   object txtSendTo: TEdit
     Left = 72
-    Top = 74
-    Width = 177
+    Top = 102
+    Width = 190
     Height = 21
-    TabOrder = 1
+    TabOrder = 4
   end
   object txtFrom: TEdit
-    Left = 296
-    Top = 74
+    Left = 298
+    Top = 102
     Width = 209
     Height = 21
-    TabOrder = 2
+    TabOrder = 5
   end
   object txtSubject: TEdit
     Left = 72
-    Top = 101
-    Width = 433
+    Top = 129
+    Width = 435
     Height = 21
-    TabOrder = 3
+    TabOrder = 6
     Text = 'HTMLMailer Demo Test Message'
   end
   object txtHTML: TMemo
     Left = 8
-    Top = 144
+    Top = 175
     Width = 497
-    Height = 169
+    Height = 181
     Lines.Strings = (
       
         'This message was sent with the /n software HTMLMailer Control!  ' +
@@ -126,52 +145,76 @@ object FormHtmlmailer: TFormHtmlmailer
       
         'are relative to the directory where you are running the program.' +
         '  ')
-    TabOrder = 4
+    TabOrder = 7
   end
   object lstAttachments: TListBox
     Left = 75
-    Top = 319
+    Top = 362
     Width = 286
     Height = 56
     ItemHeight = 13
-    TabOrder = 5
+    TabOrder = 8
   end
   object btnAdd: TButton
     Left = 367
-    Top = 319
+    Top = 362
     Width = 66
     Height = 25
     Caption = 'Add'
-    TabOrder = 6
+    TabOrder = 9
     OnClick = btnAddClick
   end
   object btnRemove: TButton
     Left = 367
-    Top = 350
+    Top = 393
     Width = 66
     Height = 25
     Caption = 'Remove'
-    TabOrder = 7
+    TabOrder = 10
     OnClick = btnRemoveClick
   end
   object btnSend: TButton
     Left = 439
-    Top = 350
+    Top = 393
     Width = 66
     Height = 25
     Caption = 'Send'
-    TabOrder = 8
+    TabOrder = 11
     OnClick = btnSendClick
   end
+  object tPort: TEdit
+    Left = 296
+    Top = 48
+    Width = 209
+    Height = 21
+    TabOrder = 1
+    Text = '587'
+  end
+  object tPassword: TEdit
+    Left = 318
+    Top = 75
+    Width = 189
+    Height = 21
+    PasswordChar = '*'
+    TabOrder = 3
+  end
+  object tUser: TEdit
+    Left = 72
+    Top = 74
+    Width = 188
+    Height = 21
+    TabOrder = 2
+  end
   object ipsHTMLMailer1: TipsHTMLMailer
+    SSLAcceptServerCertStore = 'MY'
     SSLCertStore = 'MY'
     OnSSLServerAuthentication = ipsHTMLMailer1SSLServerAuthentication
     Left = 8
-    Top = 336
+    Top = 379
   end
   object OpenDialog1: TOpenDialog
     Left = 40
-    Top = 336
+    Top = 379
   end
 end
 

@@ -90,7 +90,7 @@ object FormWSClient: TFormWSClient
     Width = 204
     Height = 21
     TabOrder = 0
-    Text = 'ws://localhost:777'
+    Text = 'wss://localhost:777'
   end
   object btnConnect: TButton
     Left = 34

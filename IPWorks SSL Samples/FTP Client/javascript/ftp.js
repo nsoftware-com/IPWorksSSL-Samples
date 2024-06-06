@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 JavaScript Edition - Sample Project
+ * IPWorks SSL 2024 JavaScript Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -119,10 +119,10 @@ async function main() {
           if (args.length <=1 ) {
             await ftp1.listDirectoryLong();
           } else {
-            var curPath = await ftp1.getRemotePath();
-            await ftp1.setRemotePath(args[1]);
+            var curPath = await ftp1.queryRemotePath();
+            await ftp1.changeRemotePath(args[1]);
             await ftp1.listDirectoryLong();
-            await ftp1.setRemotePath(curPath); 
+            await ftp1.changeRemotePath(curPath); 
           }
         } catch (ex) {
           console.log("Error: " + ex);
@@ -132,7 +132,7 @@ async function main() {
       }
 
       case "pwd" : {
-        console.log(await ftp1.getRemotePath());
+        console.log(await ftp1.queryRemotePath());
         ftpprompt();
         break;
                 
@@ -142,7 +142,7 @@ async function main() {
           console.log("Usage: cd remote path");
           ftpprompt();
         } else {
-          await ftp1.setRemotePath(args[1]).catch((err) => { console.log("Error: "+err.message); });
+          await ftp1.changeRemotePath(args[1]).catch((err) => { console.log("Error: "+err.message); });
           ftpprompt();
         }
         break;
@@ -192,12 +192,12 @@ async function main() {
         break;
       }
       case "ascii" : {
-        ftp1.setTransferMode(1);
+        ftp1.changeTransferMode(1);
         ftpprompt();
         break;
       }
       case "binary" : {
-        ftp1.setTransferMode(2);
+        ftp1.changeTransferMode(2);
         ftpprompt();
         break;
       }

@@ -73,19 +73,16 @@ struct ContentView: View, WSServerDelegate {
         outputRes = ""        
         do
         {
-          server.sslCertStore = "" // Set sslCertStore to the path of the server certificate
-          server.sslCertStoreType = WsserverSSLCertStoreTypes.cstAuto
-          server.sslCertStorePassword = ""
-          try server.setSSLCertSubject(sslCertSubject: "*")
+            server.sslCert = Certificate(storeType: CertStoreTypes.cstPFXFile, store: "/Applications/IPWorks SSL 2024 macOS Edition/demos/SSL Echo Server/test.pfx", storePassword: "test", subject: "*")
           server.localPort = 777
           if (server.listening)
           {
-              try server.setListening(listening: false)
+              try server.stopListening()
               connected=false
           }
           else
           {
-              try server.setListening(listening: true)
+              try server.startListening()
               outputRes+="Server listening at:\nws://\(server.localHost):\(String(server.localPort))\n"
               connected=true
           }
@@ -94,7 +91,7 @@ struct ContentView: View, WSServerDelegate {
         {
           do
           {
-            try server.setListening(listening: false)
+            try server.stopListening()
             connected=false
           }
           catch {}

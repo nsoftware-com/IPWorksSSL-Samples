@@ -16,7 +16,7 @@ struct ContentView: View, IMAPDelegate {
     mesList += "        Date: \(messageDate) \n"
     mesList += "        Size: \(size) \n"
   }
-  func onMessagePart(partId: String, size: Int64, contentType: String, filename: String, contentEncoding: String, parameters: String, multipartMode: String, contentId: String, contentDisposition: String) {}
+  func onMessagePart(partId: String, size: Int64, contentType: String, fileName: String, contentEncoding: String, parameters: String, multipartMode: String, contentId: String, contentDisposition: String) {}
   func onPITrail(direction: Int32, message: String) {
     print(message)
   }
@@ -133,15 +133,15 @@ struct ContentView: View, IMAPDelegate {
       {
         switch (tlsType) {
         case 0:
-          client.sslStartMode = ImapSSLStartModes.sslExplicit
+          client.sslStartMode = IMAPSSLStartModes.sslExplicit
           break
         default:
-          client.sslStartMode = ImapSSLStartModes.sslImplicit
+          client.sslStartMode = IMAPSSLStartModes.sslImplicit
           break
         }
         client.user = login
         client.password = password
-        client.authMechanism = ImapAuthMechanisms.amUserPassword
+        client.authMechanism = IMAPAuthMechanisms.amUserPassword
         client.mailServer = host
         client.mailPort = Int32(port) ?? 993
         try client.connect()
@@ -225,7 +225,7 @@ struct ContentView: View, IMAPDelegate {
         mesList += "\nReceiving 10 messages... \n"
         mesList += "\nList of messages: \n"
         client.messageSet = "1:10"
-        try client.fetchMessageInfo()
+        try client.retrieveMessageInfo()
       }
       catch
       {

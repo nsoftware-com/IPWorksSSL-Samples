@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 Java Edition - Sample Project
+ * IPWorks SSL 2024 Java Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -20,7 +20,7 @@ public class htmlmailer extends ConsoleDemo {
 	
 	public static void main(String[] args) {
 		
-		Htmlmailer htmlmailer = new Htmlmailer();
+		HTMLMailer htmlmailer = new HTMLMailer();
     
 		if(args.length<3) {
 		
@@ -29,6 +29,8 @@ public class htmlmailer extends ConsoleDemo {
 			System.out.println("  -s      the subject of the mail message");
 			System.out.println("  -m      the HTML version of the message content");
 			System.out.println("  -a      the path of file to attach to the message");
+			System.out.println("  -u      the username to use for authentication");
+			System.out.println("  -p      the password to use for authentication");
 			System.out.println("  server  the name or address of a mail server (mail relay)");			
 			System.out.println("  from    the email address of the sender");
 			System.out.println("  to      a comma separated list of addresses for destinations");
@@ -38,9 +40,9 @@ public class htmlmailer extends ConsoleDemo {
 		
 			try {
 			
-				htmlmailer.addHtmlmailerEventListener(new DefaultHtmlmailerEventListener(){
+				htmlmailer.addHTMLMailerEventListener(new DefaultHTMLMailerEventListener(){
 					
-					public void SSLServerAuthentication(HtmlmailerSSLServerAuthenticationEvent arg0) {
+					public void SSLServerAuthentication(HTMLMailerSSLServerAuthenticationEvent arg0) {
 						arg0.accept = true; //this will trust all certificates and it is not recommended for production use
 					}			    	  			    	 																					    				    				    			      				      			      					      					      					      	            		            	
 		        });
@@ -53,6 +55,8 @@ public class htmlmailer extends ConsoleDemo {
 						if (args[i].equals("-s")) htmlmailer.setSubject(args[i+1]); // args[i+1] corresponds to the value of argument [i]
 						if (args[i].equals("-m")) htmlmailer.setMessageHTML(args[i+1]);
 						if (args[i].equals("-a")) htmlmailer.addAttachment(args[i+1]); //if you want to add attachment
+						if (args[i].equals("-u")) htmlmailer.setUser(args[i+1]);
+						if (args[i].equals("-p")) htmlmailer.setPassword(args[i+1]);
 					}
 				}
 		      
@@ -93,15 +97,13 @@ class ConsoleDemo {
     System.out.print(label + punctuation + " ");
     return input();
   }
-
-  static String prompt(String label, String punctuation, String defaultVal)
-  {
-	System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
-	String response = input();
-	if(response.equals(""))
-		return defaultVal;
-	else
-		return response;
+  static String prompt(String label, String punctuation, String defaultVal) {
+      System.out.print(label + " [" + defaultVal + "] " + punctuation + " ");
+      String response = input();
+      if (response.equals(""))
+        return defaultVal;
+      else
+        return response;
   }
 
   static char ask(String label) {

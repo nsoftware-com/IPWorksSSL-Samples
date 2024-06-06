@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 JavaScript Edition - Sample Project
+ * IPWorks SSL 2024 JavaScript Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -26,56 +26,42 @@ let rl = readline.createInterface({
 
 main();
 
-function wsprompt() {
-	process.stdout.write('ws> ');
-}
-
 async function main() {
+  const argv = process.argv;
+  if (argv.length < 3) {
+    console.log("Usage: node wsclient.js url");
+    console.log("  url    the server's URL in the format \"wss://host:[port]/[URI]\"");
+    console.log("Example: node echoserver.js wss://echo.websocket.events/.ws");
+    console.log("         node echoserver.js wss://localhost:777");
+    process.exit();
+  }
 
-	const wsclient = new ipworksssl.wsclient();
+  const wsclient = new ipworksssl.wsclient();
 
-	rl.on('line', (line) => {
-		if (line.toLowerCase() === 'quit') {
-			console.log('Quitting');
-			process.exit();
-		}
-		else {
+  wsclient.on('DataIn', (e) => {
+    console.log("Received: '" + e.text + "'");
+  }).on('SSLServerAuthentication', (e) => {
+    e.accept = true;
+  });
 
-			wsclient.send(Buffer.from(line), function (err) {
-				if (err) {
-					console.log(err);
-					process.exit(2);
-				}
+  var url = argv[2];
+  console.log('Connecting to ' + url);
 
-				wsprompt();
-			});
-		}
-	});
+  await wsclient.connectTo(url).catch(e => {
+    console.log(e)
+    process.exit(2);
+  });
+  wsclient.doEvents();
+  console.log('Connected.\r\nType and press enter to send. Press Ctrl-C to exit the application.');
 
-
-	wsclient.on('DataIn', (e) => {
-		console.log('Received: ' + e.text);
-		wsprompt();
-	});
-
-
-	await rl.question("Enter URL (Default: ws://localhost:4444)): ", async (reply) => {
-		let url
-		if(reply == "") {
-			url = "ws://localhost:4444"
-		} else {
-			url = reply
-		}
-
-		console.log('Connecting to ' + url);
-
-		await wsclient.connectTo(url).catch(e => {
-			console.log(e)
-			process.exit(2);
-		})
-		console.log('Connected.\r\nEnter data to send. Send \'quit\' to quit.');
-		wsprompt();
-	})	
+  rl.on('line', (line) => {
+    wsclient.sendText(line, function (err) {
+      if (err) {
+        console.log(err);
+        process.exit(2);
+      }
+    });
+  });
 }
 
 function prompt(promptName, label, punctuation, defaultVal)

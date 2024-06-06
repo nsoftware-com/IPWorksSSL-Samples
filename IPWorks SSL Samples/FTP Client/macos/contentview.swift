@@ -5,7 +5,7 @@ struct ContentView: View, FTPDelegate {
   func onConnectionStatus(connectionEvent: String, statusCode: Int32, description: String) {}
   func onEndTransfer(direction: Int32) {}
   func onError(errorCode: Int32, description: String) {}
-  func onSSLServerAuthentication(certEncoded: Data, certSubject: String, certIssuer: String, status: String, accept: inout Bool) {}
+  func onSSLServerAuthentication(certEncoded: Data, certSubject: String, certIssuer: String, status: String, accept: inout Bool) { accept = true }
   func onSSLStatus(message: String) {}
   func onStartTransfer(direction: Int32) {}
   func onTransfer(direction: Int32, bytesTransferred: Int64, percentDone: Int32, text: Data) {}

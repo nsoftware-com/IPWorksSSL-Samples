@@ -1,7 +1,7 @@
 import SwiftUI
 import IPWorksSSL
 
-struct ContentView: View, TCPClientDelegate {
+struct ContentView: View, SSLClientDelegate {
   func onDataIn(text: Data, eol: Bool) {
     let str = String(decoding: text, as: UTF8.self)
     outputRes += "Incoming data: \(str)"
@@ -16,7 +16,7 @@ struct ContentView: View, TCPClientDelegate {
   }
   func onSSLStatus(message: String) {}
   
-  var client = TCPClient()
+  var client = SSLClient()
   var documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/"
   @State private var server: String = ""
   @State private var port: String = ""

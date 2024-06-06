@@ -1,5 +1,5 @@
 /*
- * IPWorks SSL 2022 JavaScript Edition - Sample Project
+ * IPWorks SSL 2024 JavaScript Edition - Sample Project
  *
  * This sample project demonstrates the usage of IPWorks SSL in a 
  * simple, straightforward way. It is not intended to be a complete 
@@ -27,80 +27,42 @@ let rl = readline.createInterface({
 main();
 async function main() {
   const argv = process.argv;
-  if (argv.length != 6) {
-    console.log("Usage: node echoclient.js -s server -p port");
-    console.log("Options: ");
-    console.log("  -s    the address of the remote host.");
-    console.log("  -p    the TCP port of the remote host");
-    console.log("Example: node echoclient.js -s localhost -p 777");
+  if (argv.length < 4) {
+    console.log("Usage: node echoclient.js server port");
+    console.log("  server    the address of the remote host.");
+    console.log("  port      the TCP port of the remote host");
+    console.log("Example: node echoclient.js localhost 777");
     process.exit();
   }
 
   const sslclient = new ipworksssl.sslclient();
-  sslclient.config("AcceptAnyServerCert=true");
-  let server, port;
 
-  for (i = 0; i < argv.length; i++) {
-    if (argv[i].startsWith("-")) {
-      if (argv[i] === "-s") { server = argv[i + 1]; }
-      if (argv[i] === "-p") { port = argv[i + 1]; }
-    }
-  }
-
-  function clientprompt() {
-    process.stdout.write(' ');
-  }
-
-  sslclient.on('SSLServerAuthentication', function (e) {
+  sslclient.on('DataIn', (e) => {
+    console.log("Received '" + e.text + "'");
+  }).on('SSLServerAuthentication', function (e) {
     e.accept = true;
-  })
-    .on('Connected', function (e) {
-      console.log(sslclient.getRemoteHost() + " has connected.")
-    })
-    .on('Disconnected', function (e) {
-      console.log("Disconnected " + e.description + " from " + sslclient.getRemoteHost() + ".");
-    });
+  }).on('Disconnected', function (e) {
+    console.log("Disconnected " + e.description + " from " + sslclient.getRemoteHost() + ".");
+  });
 
-  await sslclient.connectTo(server, parseInt(port)).catch((err) => {
+  sslclient.config("AcceptAnyServerCert=true");
+
+  await sslclient.connectTo(argv[2], parseInt(argv[3])).catch((err) => {
     console.log("Error: " + err.message);
     process.exit();
   });
 
-  clientprompt();
+  sslclient.doEvents();
+  console.log("Connected.\r\nType and press enter to send. Press Ctrl-C to exit the application.");
 
-  await sslclient.doEvents().catch((err) => {
-    console.log("Error: " + err.message);
-    process.exit();
-  });
-
-  if (sslclient.isConnected()) {
-    console.log("> Press 1 to input data \n > Press 2 to quit")
-    rl.prompt();
-    rl.on('line', command => {
-      
-      if ("1" === command) {
-        rl.question("Type data to send: ", data => {
-          sslclient.sendText(data);
-          
-          sslclient.on('DataIn', function (e) {
-            console.log("Received '" + e.text + "' from " + sslclient.getRemoteHost());
-            clientprompt();
-            rl.prompt();
-          })
-
-        })
-
-      } else if ("2" === command) {
-        rl.close()
-      } else {
-        console.log("\r\nInvalid input!");
-        rl.prompt()
+  rl.on('line', (line) => {
+    sslclient.sendText(line, function (err) {
+      if (err) {
+        console.log(err);
+        process.exit(2);
       }
-    }).on('close', () => {
-      sslclient.disconnect();
-    })
-  }
-
+    });
+  });
 }
 
 
